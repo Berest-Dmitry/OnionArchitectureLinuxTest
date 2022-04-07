@@ -1,0 +1,46 @@
+﻿@page
+@model LinuxTest1.Views.UserRoles.UserRolesModel
+@{
+    Layout = "_Layout";
+}
+<div class="container-fluid mb-3" style="width: 100%">
+    <div class="row" style="width: inherit; display: flex; justify-content: space-between; ">
+        <div class="card mt-5 col-lg-6" style=" margin-left: -5px;">
+            <div class="card-header">
+                <h2 class="m-0">
+                    Пользователи
+                </h2>
+            </div>
+            <div class="card-body" style="font-family: 'Times New Roman', Times, serif">
+                <ul id="UsersList" class="table table-striped table-hover table-bordered" style="overflow:auto">
+
+                </ul>
+            </div>
+        </div>
+        <div class="card mt-5 col-lg-6" style=" margin-right: -5px">
+            <div class="card-header">
+                <h2 class="m-0">
+                    Роли
+                </h2>
+            </div>
+            <div class="card-body" style="font-family: 'Times New Roman', Times, serif">
+                <ul id="RolesList" class="table table-striped table-hover table-bordered" style="overflow:auto;">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row container mr-2" style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: space-between;">
+        <div class="col-3 float-left">
+            <a class="btn btn-success float-lg-right btn-add-root align-content-center" style="height: 80px; border-radius: 10px;"><i title="Добавить" class="fas fa-plus"></i>Связать пользователя с ролью</a>
+        </div>
+        <div class="col-3 float-right">
+            <a class="btn btn-info float-lg-right btn-show-root align-content-center" style="height: 80px; border-radius: 10px;"><i title="Удалить" class="fas fa-info-circle"></i>Показать связи</a>
+        </div>
+        <div class="col-3 float-right">
+            <a class="btn btn-danger float-lg-right btn-remove-root align-content-center" style="height: 80px; border-radius: 10px;"><i title="Удалить" class="fas fa-trash"></i>Удалить связь</a>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/js/pages/UserRoles.js" asp-append-version="true"></script>
