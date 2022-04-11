@@ -13,15 +13,15 @@ namespace Services.Abstractions
 	/// </summary>
 	public interface IUserService
 	{
-		Task<DataTableModel.DtResponse<UserModel>> GetAllUsersAsync(string search = null);
+		Task<DataTableModel.DtResponse<UserDto>> GetAllUsersAsync(string search = null);
 
-		Task<UserModel> GetByIdAsync(Guid Id);
+		Task<UserDto> GetByIdAsync(Guid Id);
 
-		Task<UserModel> CreateAsync(UserModel userModel);
+		Task<UserDto> CreateAsync(UserDto userModel);
 
-		Task<UserModel> UpdateAsync(UserModel userModel);
+		Task<UserDto> UpdateAsync(UserDto userModel);
 
-		Task<UserModel> DeleteUserAsync(Guid userId);
+		Task<UserDto> DeleteUserAsync(Guid userId);
 
 		Task<bool> MarkUserAsRemoved( Guid userId);
 	}

@@ -28,25 +28,25 @@ namespace Services
 		/// <param name="UserId"></param>
 		/// <param name="roleId"></param>
 		/// <returns></returns>
-		public async Task<UserRolesModel> AttachRoleToUser(Guid UserId, Guid RoleId)
+		public async Task<UserRolesDto> AttachRoleToUser(Guid UserId, Guid RoleId)
 		{
 			try
 			{
 				var result = await _repositoryManager._userRolesRepository.AttachRoleToUser(UserId, RoleId);
 				if(result.Id == Guid.Empty)
 				{
-					return new UserRolesModel()
+					return new UserRolesDto()
 					{
 						Result = DefaultEnums.Result.error,
 						Error = new Exception("Данные пользователь и роль уже были связаны")
 					};
 				}
 				//return ModelConverter.UserRolesModelToViewModel(result);
-				return ObjectMapper.Mapper.Map<UserRolesModel>(result);
+				return ObjectMapper.Mapper.Map<UserRolesDto>(result);
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserRolesModel>.ErrorFormat(ex);
+				return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -56,25 +56,25 @@ namespace Services
 		/// <param name="UserId"></param>
 		/// <param name="RoleId"></param>
 		/// <returns></returns>
-		public async Task<UserRolesModel> DetachRoleFromUser(Guid UserId, Guid RoleId)
+		public async Task<UserRolesDto> DetachRoleFromUser(Guid UserId, Guid RoleId)
 		{
 			try
 			{
 				var result = await _repositoryManager._userRolesRepository.DetachRoleFromUser(UserId, RoleId);
 				if (result.Id == Guid.Empty)
 				{
-					return new UserRolesModel()
+					return new UserRolesDto()
 					{
 						Result = DefaultEnums.Result.error,
 						Error = new Exception("Данные пользователь и роль не связаны в настоящий момент")
 					};
 				}
-				return ObjectMapper.Mapper.Map<UserRolesModel>(result);
+				return ObjectMapper.Mapper.Map<UserRolesDto>(result);
 
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserRolesModel>.ErrorFormat(ex);
+				return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -83,18 +83,18 @@ namespace Services
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		public async Task<List<RoleModel>> GetAllRoleNames(Guid? userId = null)
+		public async Task<List<RoleDto>> GetAllRoleNames(Guid? userId = null)
 		{
 			try
 			{
-				var all_roles = new List<RoleModel>();
+				var all_roles = new List<RoleDto>();
 				var role_list = new List<Role>();
 				if (userId == null || userId == Guid.Empty)
 				{
 					role_list = await _repositoryManager._roleRepository.GetAllAsync()
 						as List<Role>;
 					foreach (var role in role_list)
-						all_roles.Add(ObjectMapper.Mapper.Map<RoleModel>(role));
+						all_roles.Add(ObjectMapper.Mapper.Map<RoleDto>(role));
 				}
 				else
 				{
@@ -104,13 +104,13 @@ namespace Services
 						.GetAsync(r => items.Select(x => x.RoleId).Contains(r.Id)) as List<Role>;
 
 					foreach (var role in roles)
-						all_roles.Add(ObjectMapper.Mapper.Map<RoleModel>(role));
+						all_roles.Add(ObjectMapper.Mapper.Map<RoleDto>(role));
 				}
 				return all_roles;
 			}
 			catch(Exception ex)
 			{
-				return new List<RoleModel>();
+				return new List<RoleDto>();
 			}
 		}
 

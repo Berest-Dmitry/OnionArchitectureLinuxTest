@@ -148,7 +148,7 @@ var o_page = {
                                 thisId: item_id
                             },
                             success: function (res) {
-                                if (!res.result) {
+                                if (!res.Result) {
                                     utilitiesBase.errorMessage(res.ErrorInfo);
                                 }
                                 else {
@@ -190,7 +190,7 @@ var o_page = {
                     data: modal_data,
                     success: function (res) {
                         if (res && res.id && res.id != guidEmpty) {
-                            utilitiesBase.infoMessage("Пользователь " + res.firstname + " " + res.lastname + " успешно сохранен в БД!");
+                            utilitiesBase.infoMessage("Пользователь " + res.firstName + " " + res.lastName + " успешно сохранен в БД!");
                             o_page.jq_table.DataTable().ajax.reload();
                             helperFunc.clearModal(jq_modal, modal_data);
                             jq_modal.find('label').removeClass("active");
@@ -212,7 +212,7 @@ var o_page = {
                 thisUser: o_page.recordId
             },
             success: function (res) {
-                if (!res.result) {
+                if (!res.Result) {
                     utilitiesBase.errorMessage(res.ErrorInfo);
                 }
                 else {

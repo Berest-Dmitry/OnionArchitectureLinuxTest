@@ -22,20 +22,20 @@ namespace Services.Abstractions
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		Task<List<RoleModel>> GetAllRoleNames(Guid? userId = null);
+		Task<List<RoleDto>> GetAllRoleNames(Guid? userId = null);
 		/// <summary>
 		/// метод прикрепления роли к пользователю
 		/// </summary>
 		/// <param name="UserId"></param>
 		/// <param name="roleId"></param>
 		/// <returns></returns>
-		Task<UserRolesModel> AttachRoleToUser(Guid UserId, Guid RoleId);
+		Task<UserRolesDto> AttachRoleToUser(Guid UserId, Guid RoleId);
 		/// <summary>
 		/// метод открепления роли пользователя
 		/// </summary>
 		/// <param name="UserId"></param>
 		/// <param name="RoleId"></param>
 		/// <returns></returns>
-		Task<UserRolesModel> DetachRoleFromUser(Guid UserId, Guid RoleId);
+		Task<UserRolesDto> DetachRoleFromUser(Guid UserId, Guid RoleId);
 	}
 }

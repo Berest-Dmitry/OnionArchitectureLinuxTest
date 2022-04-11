@@ -9,11 +9,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using Persistence.Repositories;
+using Presentation.Controllers;
 using Services;
 using Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace OnionArcitectureLinuxTest1
@@ -41,22 +43,38 @@ namespace OnionArcitectureLinuxTest1
 			#region DatabaseConnection
 			services.AddDbContextPool<ApplicationContext>(builder => {
 				var connectionString = Configuration.GetConnectionString("Database");
-				builder.UseNpgsql(connectionString)
+				builder.UseNpgsql(connectionString, b => b.MigrationsAssembly("Persistence"))
 				.UseSnakeCaseNamingConvention();
 			});
 			#endregion
 
 			#region AddControllers
-			
-			services.AddControllers().ConfigureApiBehaviorOptions(options =>
-			{
-				options.SuppressConsumesConstraintForFormFileParameters = true;
-				options.SuppressInferBindingSourcesForParameters = true;
-				options.SuppressModelStateInvalidFilter = true;
-				options.SuppressMapClientErrors = true;
-				options.ClientErrorMapping[StatusCodes.Status404NotFound].Link =
-					"https://httpstatuses.com/404";
-			});
+
+			services.AddControllersWithViews();
+			services.AddControllers().AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+			//ƒобавление контроллеров из другого проекта.
+			services.AddMvc().AddApplicationPart(typeof(UserController).GetTypeInfo().Assembly);
+			services.AddMvc().AddApplicationPart(typeof(RoleController).GetTypeInfo().Assembly);
+			services.AddMvc().AddApplicationPart(typeof(UserRolesController).GetTypeInfo().Assembly);
+			//	.ConfigureApiBehaviorOptions(options =>
+			//{
+			//	options.SuppressConsumesConstraintForFormFileParameters = true;
+			//	options.SuppressInferBindingSourcesForParameters = true;
+			//	options.SuppressModelStateInvalidFilter = true;
+			//	options.SuppressMapClientErrors = true;
+			//	options.ClientErrorMapping[StatusCodes.Status404NotFound].Link =
+			//		"https://httpstatuses.com/404";
+			//});
+			services.AddAutoMapper(typeof(Startup));
+
+			services.AddMvc()
+				.AddFeatureFolders().AddJsonOptions(options =>
+				{
+					options.JsonSerializerOptions.PropertyNamingPolicy = null;
+					options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+					//ons.JsonSerializerOptions.Converters.Add(new FloatConverter());
+
+				});
 			#endregion
 		}
 
@@ -85,6 +103,7 @@ namespace OnionArcitectureLinuxTest1
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapRazorPages();
+				endpoints.MapControllers();
 
 				endpoints.MapControllerRoute(
 					name: "default",

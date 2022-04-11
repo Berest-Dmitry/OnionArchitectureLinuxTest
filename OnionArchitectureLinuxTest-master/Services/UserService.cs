@@ -25,7 +25,7 @@ namespace Services
 		/// </summary>
 		/// <param name="userModel"></param>
 		/// <returns></returns>
-		public async Task<UserModel> CreateAsync(UserModel userModel)
+		public async Task<UserDto> CreateAsync(UserDto userModel)
 		{
 			try
 			{
@@ -33,11 +33,11 @@ namespace Services
 				userModel.id = Guid.NewGuid();
 				var res = await _repositoryManager._userRepository.AddAsync(entity);
 				//return ModelConverter.UserModelToViewModel(res);
-				return ObjectMapper.Mapper.Map<UserModel>(res);
+				return ObjectMapper.Mapper.Map<UserDto>(res);
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserModel>.ErrorFormat(ex);
+				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace Services
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		public async Task<UserModel> DeleteUserAsync(Guid userId)
+		public async Task<UserDto> DeleteUserAsync(Guid userId)
 		{
 			try
 			{
@@ -54,14 +54,14 @@ namespace Services
 				if(existing_entity != null)
 				{
 					await _repositoryManager._userRepository.DeleteAsync(existing_entity);
-					return new UserModel()
+					return new UserDto()
 					{
 						Result = Contracts.CommonData.DefaultEnums.Result.ok
 					};
 				}
 				else
 				{
-					return new UserModel
+					return new UserDto
 					{
 						Result = Contracts.CommonData.DefaultEnums.Result.error,
 						Error = new Exception("Произошла ошибка при удалении данного пользователя! ")
@@ -70,7 +70,7 @@ namespace Services
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserModel>.ErrorFormat(ex);
+				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace Services
 		/// </summary>
 		/// <param name="search"></param>
 		/// <returns></returns>
-		public async Task<DataTableModel.DtResponse<UserModel>> GetAllUsersAsync(string search = null)
+		public async Task<DataTableModel.DtResponse<UserDto>> GetAllUsersAsync(string search = null)
 		{
 			try
 			{
@@ -92,15 +92,15 @@ namespace Services
 				{
 					userList = await _repositoryManager._userRepository.GetUsersBySearch(search);
 				}
-				var result = new List<UserModel>();
+				var result = new List<UserDto>();
 				if(userList != null)
 				{
 					foreach (var item in userList)
 						//result.Add(ModelConverter.UserModelToViewModel(item));
-						result.Add(ObjectMapper.Mapper.Map<UserModel>(item));
+						result.Add(ObjectMapper.Mapper.Map<UserDto>(item));
 				}		
 
-				return new DataTableModel.DtResponse<UserModel>
+				return new DataTableModel.DtResponse<UserDto>
 				{
 					data = result,
 					recordsFiltered = result.Count,
@@ -111,7 +111,7 @@ namespace Services
 			}
 			catch(Exception ex)
 			{
-				return new DataTableModel.DtResponse<UserModel>()
+				return new DataTableModel.DtResponse<UserDto>()
 				{ 
 					Result = Contracts.CommonData.DefaultEnums.Result.error,
 					message = ex.Message
@@ -123,7 +123,7 @@ namespace Services
 		/// </summary>
 		/// <param name="Id"></param>
 		/// <returns></returns>
-		public async Task<UserModel> GetByIdAsync(Guid Id)
+		public async Task<UserDto> GetByIdAsync(Guid Id)
 		{
 			try
 			{
@@ -131,13 +131,13 @@ namespace Services
 				if (entity != null)
 				{
 					//return ModelConverter.UserModelToViewModel(entity);
-					return ObjectMapper.Mapper.Map<UserModel>(entity);
+					return ObjectMapper.Mapper.Map<UserDto>(entity);
 				}
-				else return new UserModel() { Error = new Exception("Пользователь не найден!") };
+				else return new UserDto() { Error = new Exception("Пользователь не найден!") };
 			}
 			catch(Exception ex)
 			{
-				return BaseModelUtilities<UserModel>.ErrorFormat(ex);
+				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -172,7 +172,7 @@ namespace Services
 		/// </summary>
 		/// <param name="userModel"></param>
 		/// <returns></returns>
-		public async Task<UserModel> UpdateAsync(UserModel userModel)
+		public async Task<UserDto> UpdateAsync(UserDto userModel)
 		{
 			try
 			{
@@ -185,11 +185,11 @@ namespace Services
 					await _repositoryManager._userRepository.UpdateAsync(existing_entity);
 					return userModel;
 				}
-				else return new UserModel();
+				else return new UserDto();
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserModel>.ErrorFormat(ex);
+				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
 			}
 		}
 	}

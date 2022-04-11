@@ -24,7 +24,7 @@ namespace Services
 		/// </summary>
 		/// <param name="roleModel"></param>
 		/// <returns></returns>
-		public async  Task<RoleModel> CreateAsync(RoleModel roleModel)
+		public async  Task<RoleDto> CreateAsync(RoleDto roleModel)
 		{
 			try
 			{
@@ -33,11 +33,11 @@ namespace Services
 				entity.Id = Guid.NewGuid();
 				var res = await _repositoryManager._roleRepository.AddAsync(entity);
 				//return ModelConverter.RoleModelToViewModel(res);
-				return ObjectMapper.Mapper.Map<RoleModel>(res);
+				return ObjectMapper.Mapper.Map<RoleDto>(res);
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleModel>.ErrorFormat(ex);
+				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace Services
 		/// </summary>
 		/// <param name="roleId"></param>
 		/// <returns></returns>
-		public async Task<RoleModel> DeleteRoleAsync(Guid roleId)
+		public async Task<RoleDto> DeleteRoleAsync(Guid roleId)
 		{
 			try
 			{
@@ -54,14 +54,14 @@ namespace Services
 				if(existing_entity != null)
 				{
 					await _repositoryManager._roleRepository.DeleteAsync(existing_entity);
-					return new RoleModel
+					return new RoleDto
 					{
 						Result = DefaultEnums.Result.ok
 					};
 				}
 				else
 				{
-					return new RoleModel
+					return new RoleDto
 					{
 						Result = DefaultEnums.Result.error,
 						Error = new Exception("Произошла ошибка при удалении данного роли! ")
@@ -70,7 +70,7 @@ namespace Services
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleModel>.ErrorFormat(ex);
+				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -79,12 +79,12 @@ namespace Services
 		/// </summary>
 		/// <param name="search"></param>
 		/// <returns></returns>
-		public async Task<DataTableModel.DtResponse<RoleModel>> GetAllRolesAsync(string search = null)
+		public async Task<DataTableModel.DtResponse<RoleDto>> GetAllRolesAsync(string search = null)
 		{
 			try
 			{
 				var roleList = new List<Role>();
-				var result = new List<RoleModel>();
+				var result = new List<RoleDto>();
 				if (string.IsNullOrEmpty(search))
 				{
 					roleList = await _repositoryManager._roleRepository.GetAllAsync() as List<Role>;
@@ -96,9 +96,9 @@ namespace Services
 				if(roleList != null)
 				{
 					foreach (var item in roleList)
-						result.Add(ObjectMapper.Mapper.Map<RoleModel>(item));
+						result.Add(ObjectMapper.Mapper.Map<RoleDto>(item));
 				}
-				return new DataTableModel.DtResponse<RoleModel> { 
+				return new DataTableModel.DtResponse<RoleDto> { 
 					data = result,
 					recordsTotal = result.Count,
 					recordsFiltered = result.Count
@@ -106,7 +106,7 @@ namespace Services
 			}
 			catch (Exception ex)
 			{
-				return new DataTableModel.DtResponse<RoleModel>()
+				return new DataTableModel.DtResponse<RoleDto>()
 				{
 					Result = DefaultEnums.Result.error,
 					message = ex.Message
@@ -119,7 +119,7 @@ namespace Services
 		/// </summary>
 		/// <param name="Id"></param>
 		/// <returns></returns>
-		public async Task<RoleModel> GetByIdAsync(Guid Id)
+		public async Task<RoleDto> GetByIdAsync(Guid Id)
 		{
 			try
 			{
@@ -127,14 +127,14 @@ namespace Services
 				if(entity != null)
 				{
 					//return ModelConverter.RoleModelToViewModel(entity);
-					return ObjectMapper.Mapper.Map<RoleModel>(entity);
+					return ObjectMapper.Mapper.Map<RoleDto>(entity);
 				}
-				else return new RoleModel() { Error = new Exception("Роль не найдена!") };
+				else return new RoleDto() { Error = new Exception("Роль не найдена!") };
 
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleModel>.ErrorFormat(ex);
+				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
 			}
 		}
 
@@ -143,7 +143,7 @@ namespace Services
 		/// </summary>
 		/// <param name="roleModel"></param>
 		/// <returns></returns>
-		public async Task<RoleModel> UpdateAsync(RoleModel roleModel)
+		public async Task<RoleDto> UpdateAsync(RoleDto roleModel)
 		{
 			try
 			{
@@ -156,12 +156,12 @@ namespace Services
 				}
 				else
 				{
-					return new RoleModel();
+					return new RoleDto();
 				}
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleModel>.ErrorFormat(ex);
+				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
 			}
 		}
 

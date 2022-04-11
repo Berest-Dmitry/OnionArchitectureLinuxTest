@@ -38,8 +38,8 @@ var o_page_UserRoles = {
 						roleId: o_page_UserRoles.chosen_role
 					},
 					success: function (res) {
-						if (!res.result) {
-							utilitiesBase.errorMessage("Произошла ошибка при связывании пользователя с ролью: " + res.errorInfo);
+						if (!res.Result) {
+							utilitiesBase.errorMessage("Произошла ошибка при связывании пользователя с ролью: " + res.ErrorInfo);
 						}
 						else {
 							utilitiesBase.infoMessage("Пользователь и роль успешно связаны!");
@@ -63,8 +63,8 @@ var o_page_UserRoles = {
 						roleId: o_page_UserRoles.chosen_role
 					},
 					success: function (res) {
-						if (!res.result) {
-							utilitiesBase.errorMessage("Произошла ошибка при удалении связи пользователя с ролью: " + res.errorInfo);
+						if (!res.Result) {
+							utilitiesBase.errorMessage("Произошла ошибка при удалении связи пользователя с ролью: " + res.ErrorInfo);
 						}
 						else {
 							utilitiesBase.infoMessage("Связь успешно удалена!");
@@ -133,7 +133,7 @@ var o_page_UserRoles = {
 					res.forEach(function (item) {
 						o_page_UserRoles.jq_users_list.append('<li class="m-2 p-2"><p style="display: none;">' +
 							item.id + '</p>'
-							+ '<p id="' + item.id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectUser(\'' + item.id + '\')">' + item.userName + '</p></li>');
+							+ '<p id="' + item.id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectUser(\'' + item.id + '\')">' + item.UserName + '</p></li>');
 					});					
 				}
 			},
@@ -160,7 +160,7 @@ var o_page_UserRoles = {
 						o_page_UserRoles.jq_roles_List.append('<li class="m-2 p-2"><p style="display: none;">' +
 							item.id + '</p>'
 							+ '<p id="' + item.id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectRole(\'' + item.id + '\')">'
-							+ item.rolename + '</p></li>');
+							+ item.roleName + '</p></li>');
 					});
 				}
 			},

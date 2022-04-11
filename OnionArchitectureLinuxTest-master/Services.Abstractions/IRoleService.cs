@@ -12,15 +12,15 @@ namespace Services.Abstractions
 	/// </summary>
 	public interface IRoleService
 	{
-		Task<DataTableModel.DtResponse<RoleModel>> GetAllRolesAsync(string search = null);
+		Task<DataTableModel.DtResponse<RoleDto>> GetAllRolesAsync(string search = null);
 
-		Task<RoleModel> GetByIdAsync(Guid Id);
+		Task<RoleDto> GetByIdAsync(Guid Id);
 
-		Task<RoleModel> CreateAsync(RoleModel roleModel);
+		Task<RoleDto> CreateAsync(RoleDto roleModel);
 
-		Task<RoleModel> UpdateAsync(RoleModel roleModel);
+		Task<RoleDto> UpdateAsync(RoleDto roleModel);
 
-		Task<RoleModel> DeleteRoleAsync(Guid roleId);
+		Task<RoleDto> DeleteRoleAsync(Guid roleId);
 
 		Task<bool> MarkRoleAsRemoved(Guid roleId);
 	}

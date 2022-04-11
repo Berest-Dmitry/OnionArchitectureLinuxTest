@@ -7,9 +7,9 @@ namespace Services
 	public sealed class ModelConverter
 	{
 		#region ModelToViewModel
-		public static UserModel UserModelToViewModel(User obj)
+		public static UserDto UserModelToViewModel(User obj)
 		{
-			return new UserModel
+			return new UserDto
 			{
 				id = obj.Id,
 				firstName = obj.FirstName,
@@ -19,9 +19,9 @@ namespace Services
 			};
 		}
 
-		public static RoleModel RoleModelToViewModel(Role obj)
+		public static RoleDto RoleModelToViewModel(Role obj)
 		{
-			return new RoleModel
+			return new RoleDto
 			{
 				id = obj.Id,
 				roleName = obj.RoleName,
@@ -29,9 +29,9 @@ namespace Services
 			};
 		}
 
-		public static UserRolesModel UserRolesModelToViewModel(UserRoles obj)
+		public static UserRolesDto UserRolesModelToViewModel(UserRoles obj)
 		{
-			return new UserRolesModel
+			return new UserRolesDto
 			{
 				id = obj.Id,
 				UserId = obj.UserId,
@@ -42,7 +42,7 @@ namespace Services
 
 		#region ViewModelToModel
 
-		public static User UserViewModelToModel(UserModel mod)
+		public static User UserViewModelToModel(UserDto mod)
 		{
 			return new User
 			{
@@ -54,7 +54,7 @@ namespace Services
 			};
 		}
 
-		public static Role RoleViewModelToModel(RoleModel mod)
+		public static Role RoleViewModelToModel(RoleDto mod)
 		{
 			return new Role
 			{
@@ -64,7 +64,7 @@ namespace Services
 			};
 		}
 
-		public static UserRoles UserRolesViewModelToModel(UserRolesModel mod)
+		public static UserRoles UserRolesViewModelToModel(UserRolesDto mod)
 		{
 			return new UserRoles
 			{

@@ -21,11 +21,11 @@ namespace Services {
 	}
 	public class AspnetRunDtoMapper : Profile {
 		public AspnetRunDtoMapper() {
-			CreateMap<User, UserModel>()
+			CreateMap<User, UserDto>()
 				.ReverseMap();
-			CreateMap<Role, RoleModel>()
+			CreateMap<Role, RoleDto>()
 				.ReverseMap();
-			CreateMap<UserRoles, UserRolesModel>()
+			CreateMap<UserRoles, UserRolesDto>()
 				.ReverseMap();
 		}
 	}

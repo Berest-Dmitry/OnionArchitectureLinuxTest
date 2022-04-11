@@ -143,7 +143,7 @@ var o_page = {
 								thisId: item_id
 							},
 							success: function (res) {
-								if (!res.result) {
+								if (!res.Result) {
 									utilitiesBase.errorMessage(res.ErrorInfo);
 								}
 								else {
@@ -204,7 +204,7 @@ var o_page = {
 				Id: o_page.recordId
 			},
 			success: function (res) {
-				if (!res.result) {
+				if (!res.Result) {
 					utilitiesBase.errorMessage(res.ErrorInfo);
 				}
 				else {
