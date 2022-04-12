@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts.Models;
+using Domain.Exceptions;
 
 namespace Services
 {
@@ -110,7 +111,8 @@ namespace Services
 			}
 			catch(Exception ex)
 			{
-				return new List<RoleDto>();
+				//return new List<RoleDto>();
+				throw new UsersTableNotBuiltException(ex.Message);
 			}
 		}
 
@@ -136,7 +138,8 @@ namespace Services
 			}
 			catch (Exception ex)
 			{
-				return new List<UserShortModel>();
+				//return new List<UserShortModel>();
+				throw new UsersTableNotBuiltException(ex.Message);
 			}
 		}
 	}

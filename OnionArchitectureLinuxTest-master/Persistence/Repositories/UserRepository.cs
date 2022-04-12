@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Exceptions;
 using Domain.IRepositories;
 using Persistence.Repositories.Base;
 using System;
@@ -35,7 +36,8 @@ namespace Persistence.Repositories
 			}
 			catch (Exception ex)
 			{
-				return new List<User>();
+				//return new List<User>();
+				throw new RolesTableNotBuiltException(ex.Message);
 			}
 		}
 

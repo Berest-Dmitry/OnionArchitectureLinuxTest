@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Contracts.Models;
+using Domain.Exceptions;
 //using System.Web.Mvc;
 
 namespace Presentation.Controllers
@@ -48,7 +49,8 @@ namespace Presentation.Controllers
 			}
 			catch (Exception ex)
 			{
-				return new List<UserShortModel>();
+				//return new List<UserShortModel>();
+				throw new UsersTableNotBuiltException(ex.Message);
 			}
 		}
 		/// <summary>
@@ -68,7 +70,8 @@ namespace Presentation.Controllers
 			}
 			catch (Exception ex)
 			{
-				return new List<RoleDto>();
+				//return new List<RoleDto>();
+				throw new RolesTableNotBuiltException(ex.Message);
 			}
 		}
 

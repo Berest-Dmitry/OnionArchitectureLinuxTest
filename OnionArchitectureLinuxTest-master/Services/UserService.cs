@@ -29,7 +29,8 @@ namespace Services
 		{
 			try
 			{
-				var entity = ModelConverter.UserViewModelToModel(userModel);
+				//var entity = ModelConverter.UserViewModelToModel(userModel);
+				var entity = ObjectMapper.Mapper.Map<User>(userModel);
 				userModel.id = Guid.NewGuid();
 				var res = await _repositoryManager._userRepository.AddAsync(entity);
 				//return ModelConverter.UserModelToViewModel(res);
@@ -96,8 +97,10 @@ namespace Services
 				if(userList != null)
 				{
 					foreach (var item in userList)
+					{
 						//result.Add(ModelConverter.UserModelToViewModel(item));
 						result.Add(ObjectMapper.Mapper.Map<UserDto>(item));
+					}				
 				}		
 
 				return new DataTableModel.DtResponse<UserDto>
@@ -163,7 +166,7 @@ namespace Services
 			}
 			catch (Exception ex)
 			{
-				return false;
+				throw new Exception(ex.Message);
 			}
 		}
 
