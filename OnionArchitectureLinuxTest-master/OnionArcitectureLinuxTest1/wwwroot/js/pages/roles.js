@@ -99,9 +99,10 @@ var o_page = {
 					Id: this_Id
 				},
 				success: function (res) {
+					var entity = res.Entity;
 					let jq_modal = $("#addNewRole");
 					helperFunc.clearModal(jq_modal);
-					helperFunc.setFormData(jq_modal, res);
+					helperFunc.setFormData(jq_modal, entity);
 
 					jq_modal.modal("show");
 					jq_modal.find(".modal-title").text("Редактирование роли");
@@ -167,7 +168,8 @@ var o_page = {
 					type: "POST",
 					data: modal_data,
 					success: function (res) {
-						if (res && res.id && res.id != guidEmpty) {
+						var entity = res.Entity;
+						if (res.Result && entity.id && entity.id != guidEmpty) {
 							utilitiesBase.infoMessage("Данная роль успешно обновлена!");
 							o_page.jq_table.DataTable().ajax.reload();
 							helperFunc.clearModal(jq_modal, modal_data);
@@ -183,7 +185,8 @@ var o_page = {
 					type: "POST",
 					data: modal_data,
 					success: function (res) {
-						if (res && res.id && res.id != guidEmpty) {
+						var entity = res.Entity;
+						if (res.Result && entity.id && entity.id != guidEmpty) {
 							utilitiesBase.infoMessage("Роль успешно создана!");
 							helperFunc.clearModal(jq_modal, modal_data);
 							o_page.jq_table.DataTable().ajax.reload();

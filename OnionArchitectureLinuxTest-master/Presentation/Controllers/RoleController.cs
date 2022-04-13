@@ -51,7 +51,6 @@ namespace Presentation.Controllers
 			}
 			catch (Exception ex)
 			{
-				//return new DataTableModel.DtResponse<RoleDto>();
 				throw new RolesTableNotBuiltException(ex.Message);
 			}
 		}
@@ -61,7 +60,7 @@ namespace Presentation.Controllers
 		/// <param name="Id"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public async Task<RoleDto> GetRoleToEdit(Guid Id)
+		public async Task<BaseResponseModel<RoleDto>> GetRoleToEdit(Guid Id)
 		{
 			try
 			{
@@ -70,7 +69,11 @@ namespace Presentation.Controllers
 			}
 			catch (RoleNotFoundException ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 		/// <summary>
@@ -79,11 +82,11 @@ namespace Presentation.Controllers
 		/// <param name="roleModel"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<RoleDto> UpdateThisRole(RoleDto roleModel)
+		public async Task<BaseResponseModel<RoleDto>> UpdateThisRole(RoleDto roleModel)
 		{
 			try
 			{
-				var result = new RoleDto();
+				var result = new BaseResponseModel<RoleDto>();
 				if (roleModel != null)
 				{
 					result = await _serviceManager._roleService.UpdateAsync(roleModel);
@@ -92,7 +95,11 @@ namespace Presentation.Controllers
 			}
 			catch (RoleNotFoundException ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 		/// <summary>
@@ -101,21 +108,21 @@ namespace Presentation.Controllers
 		/// <param name="Id"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<RoleDto> DeleteThisRole(Guid Id)
+		public async Task<BaseResponseModel<RoleDto>> DeleteThisRole(Guid Id)
 		{
 			try
 			{
 				var delResult = await _serviceManager._roleService.DeleteRoleAsync(Id);
 				if (delResult.Result == DefaultEnums.Result.ok)
 				{
-					return new RoleDto()
+					return new BaseResponseModel<RoleDto>()
 					{
 						Result = DefaultEnums.Result.ok
 					};
 				}
 				else
 				{
-					return new RoleDto()
+					return new BaseResponseModel<RoleDto>()
 					{
 						Result = DefaultEnums.Result.error,
 						Error = delResult.Error
@@ -124,7 +131,11 @@ namespace Presentation.Controllers
 			}
 			catch (RoleNotFoundException ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 		/// <summary>
@@ -133,7 +144,7 @@ namespace Presentation.Controllers
 		/// <param name="newRole"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<RoleDto> CreateNewRole(RoleDto newRole)
+		public async Task<BaseResponseModel<RoleDto>> CreateNewRole(RoleDto newRole)
 		{
 			try
 			{
@@ -142,27 +153,38 @@ namespace Presentation.Controllers
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
 		[HttpPost]
-		public async Task<RoleDto> MarkRoleAsRemoved(string thisId)
+		public async Task<BaseResponseModel<RoleDto>> MarkRoleAsRemoved(Guid thisId)
 		{
 			try
 			{
-				Guid roleId = Guid.Empty;
-				Guid.TryParse(thisId, out roleId);
-				var res = await _serviceManager._roleService.MarkRoleAsRemoved(roleId);
-				return new RoleDto
+				//Guid roleId = Guid.Empty;
+				//Guid.TryParse(thisId, out roleId);
+				var res = await _serviceManager._roleService.MarkRoleAsRemoved(thisId);
+				return new BaseResponseModel<RoleDto>
 				{
 					Result = DefaultEnums.Result.ok,
-					isRemoved = res
+					Entity = new RoleDto
+					{
+						isRemoved = res
+					}
 				};
 			}
 			catch (RoleNotFoundException ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 	}

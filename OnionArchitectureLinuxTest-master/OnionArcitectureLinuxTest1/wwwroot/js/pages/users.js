@@ -104,9 +104,10 @@ var o_page = {
                     Id: this_Id
                 },
                 success: function (res) {
+                    var entity = res.Entity;
                     let jq_modal = $("#addNewUser");
                     helperFunc.clearModal(jq_modal);
-                    helperFunc.setFormData(jq_modal, res);
+                    helperFunc.setFormData(jq_modal, entity);
 
                     jq_modal.modal("show");
                     jq_modal.find(".modal-title").text("Редактирование пользователя");
@@ -173,8 +174,9 @@ var o_page = {
                     type: "POST",
                     data: modal_data,
                     success: function (res) {
-                        if (res && res.id && res.id != guidEmpty) {
-                            utilitiesBase.infoMessage("Пользователь " + res.firstname + " " + res.lastname + " успешно обновлен!");
+                        var entity = res.Entity;
+                        if (res.Result && entity.id && entity.id != guidEmpty) {
+                            utilitiesBase.infoMessage("Пользователь " + entity.firstName + " " + entity.lastName + " успешно обновлен!");
                             o_page.jq_table.DataTable().ajax.reload();
                             helperFunc.clearModal(jq_modal, modal_data);
                             jq_modal.find('label').removeClass("active");
@@ -189,8 +191,9 @@ var o_page = {
                     type: "POST",
                     data: modal_data,
                     success: function (res) {
-                        if (res && res.id && res.id != guidEmpty) {
-                            utilitiesBase.infoMessage("Пользователь " + res.firstName + " " + res.lastName + " успешно сохранен в БД!");
+                        var entity = res.Entity;
+                        if (res.Result && entity.id && entity.id != guidEmpty) {
+                            utilitiesBase.infoMessage("Пользователь " + entity.firstName + " " + entity.lastName + " успешно сохранен в БД!");
                             o_page.jq_table.DataTable().ajax.reload();
                             helperFunc.clearModal(jq_modal, modal_data);
                             jq_modal.find('label').removeClass("active");

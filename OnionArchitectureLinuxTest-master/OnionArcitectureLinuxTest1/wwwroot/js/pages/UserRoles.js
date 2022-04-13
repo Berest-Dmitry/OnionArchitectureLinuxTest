@@ -89,9 +89,9 @@ var o_page_UserRoles = {
 						},
 						success: function (res) {
 							//o_page_UserRoles.jq_show_btn.text("Показать связи");
-
-							if (res && res.length > 0) {
-								res.forEach(function (item) {
+							var entitiesList = res.Entity;
+							if (res.Result && entitiesList.length > 0) {
+								entitiesList.forEach(function (item) {
 									let jq_role = o_page_UserRoles.jq_roles_List.find('#' + item.id);
 									if (jq_role) {
 										//jq_role.attr("style", "background-color: white; color: black; border-color: white;");
@@ -126,11 +126,12 @@ var o_page_UserRoles = {
 			url: '/UserRoles/GetAllUsers',
 			type: "GET",
 			success: function (res) {
-				if (res && res.length > 0) {
+				var entitiesList = res.Entity;
+				if (res.Result && entitiesList.length > 0) {
 					//for (let i = 0; i < res.length; i++) {
 					//	o_page_UserRoles.users.push(res[i]);
 					//}
-					res.forEach(function (item) {
+					entitiesList.forEach(function (item) {
 						o_page_UserRoles.jq_users_list.append('<li class="m-2 p-2"><p style="display: none;">' +
 							item.id + '</p>'
 							+ '<p id="' + item.id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectUser(\'' + item.id + '\')">' + item.UserName + '</p></li>');
@@ -154,9 +155,10 @@ var o_page_UserRoles = {
 			//	userId: userId
 			//},
 			success: function (res) {
-				if (res && res.length > 0) {
+				var entitiesList = res.Entity;
+				if (res.Result && entitiesList.length > 0) {
 					o_page_UserRoles.jq_roles_List.empty();
-					res.forEach(function (item) {
+					entitiesList.forEach(function (item) {
 						o_page_UserRoles.jq_roles_List.append('<li class="m-2 p-2"><p style="display: none;">' +
 							item.id + '</p>'
 							+ '<p id="' + item.id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectRole(\'' + item.id + '\')">'

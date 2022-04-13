@@ -24,7 +24,7 @@ namespace Services
 		/// </summary>
 		/// <param name="roleModel"></param>
 		/// <returns></returns>
-		public async  Task<RoleDto> CreateAsync(RoleDto roleModel)
+		public async  Task<BaseResponseModel<RoleDto>> CreateAsync(RoleDto roleModel)
 		{
 			try
 			{
@@ -33,11 +33,21 @@ namespace Services
 				entity.Id = Guid.NewGuid();
 				var res = await _repositoryManager._roleRepository.AddAsync(entity);
 				//return ModelConverter.RoleModelToViewModel(res);
-				return ObjectMapper.Mapper.Map<RoleDto>(res);
+				var createdModel = ObjectMapper.Mapper.Map<RoleDto>(res);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.ok,
+					Entity = createdModel
+				};
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -46,7 +56,7 @@ namespace Services
 		/// </summary>
 		/// <param name="roleId"></param>
 		/// <returns></returns>
-		public async Task<RoleDto> DeleteRoleAsync(Guid roleId)
+		public async Task<BaseResponseModel<RoleDto>> DeleteRoleAsync(Guid roleId)
 		{
 			try
 			{
@@ -54,14 +64,14 @@ namespace Services
 				if(existing_entity != null)
 				{
 					await _repositoryManager._roleRepository.DeleteAsync(existing_entity);
-					return new RoleDto
+					return new BaseResponseModel< RoleDto >
 					{
 						Result = DefaultEnums.Result.ok
 					};
 				}
 				else
 				{
-					return new RoleDto
+					return new BaseResponseModel < RoleDto >
 					{
 						Result = DefaultEnums.Result.error,
 						Error = new Exception("Произошла ошибка при удалении данного роли! ")
@@ -70,7 +80,12 @@ namespace Services
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -119,7 +134,7 @@ namespace Services
 		/// </summary>
 		/// <param name="Id"></param>
 		/// <returns></returns>
-		public async Task<RoleDto> GetByIdAsync(Guid Id)
+		public async Task<BaseResponseModel<RoleDto>> GetByIdAsync(Guid Id)
 		{
 			try
 			{
@@ -127,14 +142,27 @@ namespace Services
 				if(entity != null)
 				{
 					//return ModelConverter.RoleModelToViewModel(entity);
-					return ObjectMapper.Mapper.Map<RoleDto>(entity);
+					var resultModel = ObjectMapper.Mapper.Map<RoleDto>(entity);
+					return new BaseResponseModel<RoleDto>
+					{
+						Entity = resultModel,
+						Result = DefaultEnums.Result.ok
+					};
 				}
-				else return new RoleDto() { Error = new Exception("Роль не найдена!") };
+				else return new BaseResponseModel < RoleDto >() { 
+					Result = DefaultEnums.Result.error,
+					Error = new Exception("Роль не найдена!") 
+				};
 
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -143,7 +171,7 @@ namespace Services
 		/// </summary>
 		/// <param name="roleModel"></param>
 		/// <returns></returns>
-		public async Task<RoleDto> UpdateAsync(RoleDto roleModel)
+		public async Task<BaseResponseModel<RoleDto>> UpdateAsync(RoleDto roleModel)
 		{
 			try
 			{
@@ -152,16 +180,32 @@ namespace Services
 				{
 					existing_entity.RoleName = roleModel.roleName;
 					await _repositoryManager._roleRepository.UpdateAsync(existing_entity);
-					return roleModel;
+					//return roleModel;
+					return new BaseResponseModel<RoleDto>
+					{
+						Entity = roleModel,
+						Result = DefaultEnums.Result.ok
+					};
 				}
 				else
 				{
-					return new RoleDto();
+					//return new RoleDto();
+					return new BaseResponseModel<RoleDto>
+					{
+						Entity = null,
+						Result = DefaultEnums.Result.error,
+						Error = new Exception("Данная роль не найдена!")
+					};
 				}
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<RoleDto>.ErrorFormat(ex);
+				return new BaseResponseModel<RoleDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 

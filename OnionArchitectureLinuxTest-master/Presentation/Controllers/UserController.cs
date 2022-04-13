@@ -60,21 +60,21 @@ namespace Presentation.Controllers
 		/// <returns></returns>
 		[HttpPost]
 		//[AllowAnonymous]
-		public async Task<UserDto> DeleteThisUser(Guid thisUser)
+		public async Task<BaseResponseModel<UserDto>> DeleteThisUser(Guid thisUser)
 		{
 			try
 			{
 				var delResult = await _serviceManager._userService.DeleteUserAsync(thisUser);
 				if (delResult.Result == DefaultEnums.Result.ok)
 				{
-					return new UserDto()
+					return new BaseResponseModel < UserDto >()
 					{
 						Result = DefaultEnums.Result.ok
 					};
 				}
 				else
 				{
-					return new UserDto()
+					return new BaseResponseModel<UserDto>()
 					{
 						Result = DefaultEnums.Result.error,
 						Error = delResult.Error
@@ -83,7 +83,11 @@ namespace Presentation.Controllers
 			}
 			catch (UserNotFoundException ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -93,11 +97,11 @@ namespace Presentation.Controllers
 		/// <param name="user"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<UserDto> UpdateThisUser(UserDto user)
+		public async Task<BaseResponseModel<UserDto>> UpdateThisUser(UserDto user)
 		{
 			try
 			{
-				var result = new UserDto();
+				var result = new BaseResponseModel<UserDto>();
 				if (user != null)
 					result = await _serviceManager._userService.UpdateAsync(user);
 				return result;
@@ -105,7 +109,11 @@ namespace Presentation.Controllers
 			}
 			catch (UserNotFoundException ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 		/// <summary>
@@ -114,7 +122,7 @@ namespace Presentation.Controllers
 		/// <param name="Id"></param>
 		/// <returns></returns>
 		[HttpGet]
-		public async Task<UserDto> GetUserToEdit(Guid Id)
+		public async Task<BaseResponseModel<UserDto>> GetUserToEdit(Guid Id)
 		{
 			try
 			{
@@ -123,7 +131,11 @@ namespace Presentation.Controllers
 			}
 			catch (UserNotFoundException ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 		/// <summary>
@@ -132,7 +144,7 @@ namespace Presentation.Controllers
 		/// <param name="userModel"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<UserDto> CreateNewUser(UserDto userModel)
+		public async Task<BaseResponseModel<UserDto>> CreateNewUser(UserDto userModel)
 		{
 			try
 			{
@@ -141,27 +153,37 @@ namespace Presentation.Controllers
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
 		[HttpPost]
-		public async Task<UserDto> MarkUserAsRemoved(string thisId)
+		public async Task<BaseResponseModel<UserDto>> MarkUserAsRemoved(Guid thisId)
 		{
 			try
 			{
-				Guid userId = Guid.Empty;
-				Guid.TryParse(thisId, out userId);
-				var res = await _serviceManager._userService.MarkUserAsRemoved(userId);
-				return new UserDto
+
+				var res = await _serviceManager._userService.MarkUserAsRemoved(thisId);
+				return new BaseResponseModel<UserDto>
 				{
 					Result = DefaultEnums.Result.ok,
-					isRemoved = res
+					Entity = new UserDto
+					{
+						isRemoved = res
+					}
 				};
 			}
 			catch(UserNotFoundException ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 	}

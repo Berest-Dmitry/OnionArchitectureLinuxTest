@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Contracts.Models;
 using Domain.Exceptions;
+using Contracts.CommonData;
 //using System.Web.Mvc;
 
 namespace Presentation.Controllers
@@ -49,7 +50,6 @@ namespace Presentation.Controllers
 			}
 			catch (Exception ex)
 			{
-				//return new List<UserShortModel>();
 				throw new UsersTableNotBuiltException(ex.Message);
 			}
 		}
@@ -70,7 +70,6 @@ namespace Presentation.Controllers
 			}
 			catch (Exception ex)
 			{
-				//return new List<RoleDto>();
 				throw new RolesTableNotBuiltException(ex.Message);
 			}
 		}
@@ -82,19 +81,21 @@ namespace Presentation.Controllers
 		/// <param name="roleId"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<UserRolesDto> AttachRoleToUser(string userId, string roleId)
+		public async Task<BaseResponseModel<UserRolesDto>> AttachRoleToUser(Guid userId, Guid roleId)
 		{
 			try
 			{
-				Guid UserId, RoleId;
-				Guid.TryParse(userId, out UserId);
-				Guid.TryParse(roleId, out RoleId);
-				var res = await _serviceManager._userRoleService.AttachRoleToUser(UserId, RoleId);
+				
+				var res = await _serviceManager._userRoleService.AttachRoleToUser(userId, roleId);
 				return res;
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserRolesDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -105,19 +106,21 @@ namespace Presentation.Controllers
 		/// <param name="roleId"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<UserRolesDto> DetachRoleFromUser(string userId, string roleId)
+		public async Task<BaseResponseModel<UserRolesDto>> DetachRoleFromUser(Guid userId, Guid roleId)
 		{
 			try
 			{
-				Guid UserId, RoleId;
-				Guid.TryParse(userId, out UserId);
-				Guid.TryParse(roleId, out RoleId);
-				var res = await _serviceManager._userRoleService.DetachRoleFromUser(UserId, RoleId);
+				
+				var res = await _serviceManager._userRoleService.DetachRoleFromUser(userId, roleId);
 				return res;
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserRolesDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 	}

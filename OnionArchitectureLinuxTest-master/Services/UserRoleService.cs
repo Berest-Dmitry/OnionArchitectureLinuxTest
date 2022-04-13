@@ -29,25 +29,35 @@ namespace Services
 		/// <param name="UserId"></param>
 		/// <param name="roleId"></param>
 		/// <returns></returns>
-		public async Task<UserRolesDto> AttachRoleToUser(Guid UserId, Guid RoleId)
+		public async Task<BaseResponseModel<UserRolesDto>> AttachRoleToUser(Guid UserId, Guid RoleId)
 		{
 			try
 			{
 				var result = await _repositoryManager._userRolesRepository.AttachRoleToUser(UserId, RoleId);
 				if(result.Id == Guid.Empty)
 				{
-					return new UserRolesDto()
+					return new BaseResponseModel < UserRolesDto >()
 					{
 						Result = DefaultEnums.Result.error,
 						Error = new Exception("Данные пользователь и роль уже были связаны")
 					};
 				}
 				//return ModelConverter.UserRolesModelToViewModel(result);
-				return ObjectMapper.Mapper.Map<UserRolesDto>(result);
+				var resultModel = ObjectMapper.Mapper.Map<UserRolesDto>(result);
+				return new BaseResponseModel<UserRolesDto>
+				{
+					Entity = resultModel,
+					Result = DefaultEnums.Result.ok
+				};
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserRolesDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -57,25 +67,35 @@ namespace Services
 		/// <param name="UserId"></param>
 		/// <param name="RoleId"></param>
 		/// <returns></returns>
-		public async Task<UserRolesDto> DetachRoleFromUser(Guid UserId, Guid RoleId)
+		public async Task<BaseResponseModel<UserRolesDto>> DetachRoleFromUser(Guid UserId, Guid RoleId)
 		{
 			try
 			{
 				var result = await _repositoryManager._userRolesRepository.DetachRoleFromUser(UserId, RoleId);
 				if (result.Id == Guid.Empty)
 				{
-					return new UserRolesDto()
+					return new BaseResponseModel <UserRolesDto>()
 					{
 						Result = DefaultEnums.Result.error,
 						Error = new Exception("Данные пользователь и роль не связаны в настоящий момент")
 					};
 				}
-				return ObjectMapper.Mapper.Map<UserRolesDto>(result);
+				var resultModel =  ObjectMapper.Mapper.Map<UserRolesDto>(result);
+				return new BaseResponseModel<UserRolesDto>
+				{
+					Entity = resultModel,
+					Result = DefaultEnums.Result.ok
+				};
 
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<UserRolesDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserRolesDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -84,7 +104,7 @@ namespace Services
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		public async Task<List<RoleDto>> GetAllRoleNames(Guid? userId = null)
+		public async Task<BaseResponseModel<List<RoleDto>>> GetAllRoleNames(Guid? userId = null)
 		{
 			try
 			{
@@ -107,12 +127,18 @@ namespace Services
 					foreach (var role in roles)
 						all_roles.Add(ObjectMapper.Mapper.Map<RoleDto>(role));
 				}
-				return all_roles;
+				//return all_roles;
+				//return new ListResponseModel<RoleDto>
+				//{
+				//	Entities = all_roles,
+				//	Result = DefaultEnums.Result.ok
+				//};
+				return new BaseResponseModel<List<RoleDto>>(all_roles);
 			}
 			catch(Exception ex)
 			{
 				//return new List<RoleDto>();
-				throw new UsersTableNotBuiltException(ex.Message);
+				return new BaseResponseModel<List<RoleDto>>(ex);
 			}
 		}
 
@@ -120,7 +146,7 @@ namespace Services
 		/// метод получения всех ФИО пользователей
 		/// </summary>
 		/// <returns></returns>
-		public async Task<List<UserShortModel>> GetAllUserNames()
+		public async Task<BaseResponseModel<List<UserShortModel>>> GetAllUserNames()
 		{
 			try
 			{
@@ -134,12 +160,14 @@ namespace Services
 						UserName = item.FirstName + " " + item.LastName
 					});
 				}
-				return userNames;
+				//return userNames;
+				return new BaseResponseModel<List<UserShortModel>>(userNames);
 			}
 			catch (Exception ex)
 			{
-				//return new List<UserShortModel>();
-				throw new UsersTableNotBuiltException(ex.Message);
+				return new BaseResponseModel<List<UserShortModel>>(ex);
+				////return new List<UserShortModel>();
+				//throw new UsersTableNotBuiltException(ex.Message);
 			}
 		}
 	}

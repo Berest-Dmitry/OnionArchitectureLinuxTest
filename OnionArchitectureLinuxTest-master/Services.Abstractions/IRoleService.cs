@@ -14,13 +14,13 @@ namespace Services.Abstractions
 	{
 		Task<DataTableModel.DtResponse<RoleDto>> GetAllRolesAsync(string search = null);
 
-		Task<RoleDto> GetByIdAsync(Guid Id);
+		Task<BaseResponseModel<RoleDto>> GetByIdAsync(Guid Id);
 
-		Task<RoleDto> CreateAsync(RoleDto roleModel);
+		Task<BaseResponseModel<RoleDto>> CreateAsync(RoleDto roleModel);
 
-		Task<RoleDto> UpdateAsync(RoleDto roleModel);
+		Task<BaseResponseModel<RoleDto>> UpdateAsync(RoleDto roleModel);
 
-		Task<RoleDto> DeleteRoleAsync(Guid roleId);
+		Task<BaseResponseModel<RoleDto>> DeleteRoleAsync(Guid roleId);
 
 		Task<bool> MarkRoleAsRemoved(Guid roleId);
 	}

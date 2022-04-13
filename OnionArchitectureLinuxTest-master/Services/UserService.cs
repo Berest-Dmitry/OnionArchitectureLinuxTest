@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Contracts.Models;
+using Contracts.CommonData;
 
 namespace Services
 {
@@ -25,7 +26,7 @@ namespace Services
 		/// </summary>
 		/// <param name="userModel"></param>
 		/// <returns></returns>
-		public async Task<UserDto> CreateAsync(UserDto userModel)
+		public async Task<BaseResponseModel<UserDto>> CreateAsync(UserDto userModel)
 		{
 			try
 			{
@@ -34,11 +35,22 @@ namespace Services
 				userModel.id = Guid.NewGuid();
 				var res = await _repositoryManager._userRepository.AddAsync(entity);
 				//return ModelConverter.UserModelToViewModel(res);
-				return ObjectMapper.Mapper.Map<UserDto>(res);
+				var resultModel = ObjectMapper.Mapper.Map<UserDto>(res);
+				return new BaseResponseModel<UserDto>
+				{
+					Entity = resultModel,
+					Result = DefaultEnums.Result.ok
+				};
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Entity = null,
+					Result = DefaultEnums.Result.error,
+					Error = ex
+				};
 			}
 		}
 
@@ -47,7 +59,7 @@ namespace Services
 		/// </summary>
 		/// <param name="userId"></param>
 		/// <returns></returns>
-		public async Task<UserDto> DeleteUserAsync(Guid userId)
+		public async Task<BaseResponseModel<UserDto>> DeleteUserAsync(Guid userId)
 		{
 			try
 			{
@@ -55,23 +67,28 @@ namespace Services
 				if(existing_entity != null)
 				{
 					await _repositoryManager._userRepository.DeleteAsync(existing_entity);
-					return new UserDto()
+					return new BaseResponseModel < UserDto >()
 					{
-						Result = Contracts.CommonData.DefaultEnums.Result.ok
+						Result = DefaultEnums.Result.ok
 					};
 				}
 				else
 				{
-					return new UserDto
+					return new BaseResponseModel < UserDto >
 					{
-						Result = Contracts.CommonData.DefaultEnums.Result.error,
+						Result = DefaultEnums.Result.error,
 						Error = new Exception("Произошла ошибка при удалении данного пользователя! ")
 					};
 				}
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -126,7 +143,7 @@ namespace Services
 		/// </summary>
 		/// <param name="Id"></param>
 		/// <returns></returns>
-		public async Task<UserDto> GetByIdAsync(Guid Id)
+		public async Task<BaseResponseModel<UserDto>> GetByIdAsync(Guid Id)
 		{
 			try
 			{
@@ -134,13 +151,23 @@ namespace Services
 				if (entity != null)
 				{
 					//return ModelConverter.UserModelToViewModel(entity);
-					return ObjectMapper.Mapper.Map<UserDto>(entity);
+					var resultModel =  ObjectMapper.Mapper.Map<UserDto>(entity);
+					return new BaseResponseModel<UserDto>
+					{
+						Entity = resultModel,
+						Result = DefaultEnums.Result.ok
+					};
 				}
-				else return new UserDto() { Error = new Exception("Пользователь не найден!") };
+				else return new BaseResponseModel < UserDto >() { Error = new Exception("Пользователь не найден!") };
 			}
 			catch(Exception ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 
@@ -175,7 +202,7 @@ namespace Services
 		/// </summary>
 		/// <param name="userModel"></param>
 		/// <returns></returns>
-		public async Task<UserDto> UpdateAsync(UserDto userModel)
+		public async Task<BaseResponseModel<UserDto>> UpdateAsync(UserDto userModel)
 		{
 			try
 			{
@@ -186,13 +213,27 @@ namespace Services
 					existing_entity.LastName = userModel.lastName;
 					existing_entity.Email = userModel.email;
 					await _repositoryManager._userRepository.UpdateAsync(existing_entity);
-					return userModel;
+					//return userModel;
+					return new BaseResponseModel<UserDto>
+					{
+						Entity = userModel,
+						Result = DefaultEnums.Result.ok
+					};
 				}
-				else return new UserDto();
+				else return new BaseResponseModel<UserDto>() { 
+					Entity = null,
+					Result = DefaultEnums.Result.error,
+					Error = new Exception("Данный пользователь не найден!")
+				};
 			}
 			catch (Exception ex)
 			{
-				return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				//return BaseModelUtilities<UserDto>.ErrorFormat(ex);
+				return new BaseResponseModel<UserDto>
+				{
+					Result = DefaultEnums.Result.error,
+					Error = ex,
+				};
 			}
 		}
 	}

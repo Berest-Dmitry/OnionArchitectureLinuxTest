@@ -15,13 +15,13 @@ namespace Services.Abstractions
 	{
 		Task<DataTableModel.DtResponse<UserDto>> GetAllUsersAsync(string search = null);
 
-		Task<UserDto> GetByIdAsync(Guid Id);
+		Task<BaseResponseModel<UserDto>> GetByIdAsync(Guid Id);
 
-		Task<UserDto> CreateAsync(UserDto userModel);
+		Task<BaseResponseModel<UserDto>> CreateAsync(UserDto userModel);
 
-		Task<UserDto> UpdateAsync(UserDto userModel);
+		Task<BaseResponseModel<UserDto>> UpdateAsync(UserDto userModel);
 
-		Task<UserDto> DeleteUserAsync(Guid userId);
+		Task<BaseResponseModel<UserDto>> DeleteUserAsync(Guid userId);
 
 		Task<bool> MarkUserAsRemoved( Guid userId);
 	}
