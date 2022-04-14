@@ -39,6 +39,7 @@ namespace OnionArcitectureLinuxTest1
 					webBuilder.ConfigureLogging((ctx, logging) =>
 					{
 					});
+					webBuilder.UseUrls("http://localhost:5003", "https://localhost:7250");
 				});
 	}
 }
