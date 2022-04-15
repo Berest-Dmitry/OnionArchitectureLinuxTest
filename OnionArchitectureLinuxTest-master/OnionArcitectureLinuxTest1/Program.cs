@@ -35,11 +35,20 @@ namespace OnionArcitectureLinuxTest1
 			Host.CreateDefaultBuilder(args)
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
+					var webProtocolSettings = new List<WebProtocolSettings>();
 					webBuilder.UseStartup<Startup>();
 					webBuilder.ConfigureLogging((ctx, logging) =>
 					{
-					});
-					webBuilder.UseUrls("http://localhost:5003", "https://localhost:7250");
+						var sect = ctx.Configuration.GetSection("WebProtocolSettings");
+						webProtocolSettings.AddRange(sect.GetChildren().Select(ch => new WebProtocolSettings
+						{
+							Url = ch["Url"],
+							Port = ch["Port"]
+						}));
+						var url_from = "http://" + webProtocolSettings[0].Url + ":" + webProtocolSettings[0].Port;
+						var url_to = "https://" + webProtocolSettings[1].Url + ":" + webProtocolSettings[1].Port;
+						webBuilder.UseUrls(url_from, url_to);
+					});				
 				});
 	}
 }
