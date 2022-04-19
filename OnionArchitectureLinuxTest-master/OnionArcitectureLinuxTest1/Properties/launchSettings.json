@@ -1,10 +1,17 @@
 {
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://localhost:52341"
+      }
+    }
+  },
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:44149",
-      "sslPort": 0
+      "sslPort": 44332
     }
   },
   "profiles": {
@@ -22,13 +29,6 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:7250"
-    }
-  },
-  "Kestrel": {
-    "Endpoints": {
-      "Http": {
-        "Url": "http://localhost:52341"
-      }    
     }
   }
 }
