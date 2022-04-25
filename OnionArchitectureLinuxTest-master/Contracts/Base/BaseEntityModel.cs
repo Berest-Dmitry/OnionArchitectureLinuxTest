@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Contracts.Base
 {
-	public class BaseCodeModel
+	public class BaseEntityModel
 	{
 		public Guid id { get; set; }
 	}

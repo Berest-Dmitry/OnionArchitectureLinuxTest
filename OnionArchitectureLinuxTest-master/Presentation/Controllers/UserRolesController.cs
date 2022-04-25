@@ -13,20 +13,17 @@ using Contracts.CommonData;
 
 namespace Presentation.Controllers
 {
-	/*[ApiController]
-	[Route("api/userroles")]*/
+	
 	public class UserRolesController : Controller
 	{
 		public IActionResult Index()
 		{
-			//return (IActionResult)View();
 			return View();
 		}
 
 		public IActionResult UserRoles()
 		{
-			//return View("UserRoles");
-			return View(@"\Features\UserRoles\UserRoles");
+			return View(@"\Views\UserRoles\UserRoles.cshtml");
 		}
 
 		private readonly IServiceManager _serviceManager;

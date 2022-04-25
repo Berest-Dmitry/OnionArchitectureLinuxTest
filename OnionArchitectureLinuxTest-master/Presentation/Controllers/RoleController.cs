@@ -8,24 +8,21 @@ using System.Threading.Tasks;
 using Contracts.Models;
 using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-//using System.Web.Mvc;
-//using System.Web;
+
 
 namespace Presentation.Controllers
 {
-	/*[ApiController]
-	[Route("api/role")]*/
+
 	public class RoleController : Controller
 	{
 		public IActionResult Index()
 		{
-			//return (IActionResult)View();
 			return View();
 		}
 
 		public IActionResult Roles()
 		{
-			return View(@"Features\Role\Roles");
+			return View(@"Views\Role\Roles.cshtml");
 		}
 
 		private readonly IServiceManager _serviceManager;

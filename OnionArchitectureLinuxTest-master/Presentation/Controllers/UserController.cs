@@ -10,21 +10,14 @@ using Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 //using System.Web.Mvc;
 
-namespace Presentation.Controllers
-{
-	/*[ApiController]
-	[Route("api/user")]*/
-	public class UserController : Controller
-	{
-		public IActionResult Index()
-		{
-			//return (IActionResult)RedirectToAction();
+namespace Presentation.Controllers {
+	public class UserController : Controller {
+		public IActionResult Index() {
 			return View();
 		}
 		public IActionResult Users()
 		{
-			//return RedirectToAction("Users", "User");
-			return View(@"\Features\User\Users");
+			return View(@"\Views\User\Users.cshtml");
 		}
 
 		private readonly IServiceManager _serviceManager;

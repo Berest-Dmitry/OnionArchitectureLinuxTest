@@ -32,10 +32,7 @@ namespace Contracts.Base
             Error = exp;
             Result = DefaultEnums.Result.error;
         }
-        public static BaseModel ErrorFormat(Exception exp)
-        {
-            return new BaseModel(exp);
-        }
+        
     }
 
     public static class BaseModelUtilities<T>

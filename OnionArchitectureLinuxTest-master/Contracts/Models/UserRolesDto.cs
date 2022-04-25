@@ -8,7 +8,7 @@ namespace Contracts.Models
 	/// <summary>
 	/// модель данных о связи пользователя и роли
 	/// </summary>
-	public class UserRolesDto: BaseCodeModel
+	public class UserRolesDto: BaseEntityModel
 	{
 		/// <summary>
 		/// ID пользователя

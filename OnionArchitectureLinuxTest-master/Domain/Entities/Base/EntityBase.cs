@@ -1,4 +1,5 @@
-﻿using static Domain.IEntities.IEntityBase;
+﻿
+using Domain.IEntities;
 
 namespace Domain.Entities.Base
 {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnionArcitectureLinuxTest1.Pages
+namespace OnionArcitectureLinuxTest1.Views
 {
 	public class PrivacyModel : PageModel
 	{

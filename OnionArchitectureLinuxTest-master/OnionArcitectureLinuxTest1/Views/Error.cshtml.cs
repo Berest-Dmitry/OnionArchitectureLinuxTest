@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OnionArcitectureLinuxTest1.Pages
+namespace OnionArcitectureLinuxTest1.Views
 {
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	public class ErrorModel : PageModel

@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Contracts.CommonData;
 using Contracts.Models;
+using Services.Abstractions.Database;
 
-namespace Services
+namespace Services.Database
 {
 	public class RoleService: IRoleService
 	{

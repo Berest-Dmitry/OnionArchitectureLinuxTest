@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Contracts.Base
 {
-	public class BaseTrackedModel : BaseCodeModel
+	public class BaseTrackedModel : BaseEntityModel
 	{
 		public DateTime? DateCreated { get; set; }
 		public DateTime? DateChanged { get; set; }

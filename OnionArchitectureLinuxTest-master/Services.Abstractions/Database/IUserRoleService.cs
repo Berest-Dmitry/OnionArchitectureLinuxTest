@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.Abstractions
+namespace Services.Abstractions.Database
 {
 	/// <summary>
 	/// интерфейс связи пользователей и ролей

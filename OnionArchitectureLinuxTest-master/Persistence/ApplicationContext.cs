@@ -10,6 +10,8 @@ namespace Persistence
 	{
 		public ApplicationContext(DbContextOptions options) : base(options)
 		{
+			Database.Migrate();
+			Database.EnsureCreated();
 			//Database.EnsureCreated();
 		}
 

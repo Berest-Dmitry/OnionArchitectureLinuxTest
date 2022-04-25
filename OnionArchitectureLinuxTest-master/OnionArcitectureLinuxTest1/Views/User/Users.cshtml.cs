@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LinuxTest1.Pages.Web_App
+namespace LinuxTest1.Views.Web_App
 {
     public class UsersModel : PageModel
     {

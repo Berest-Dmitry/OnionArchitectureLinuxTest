@@ -11,8 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Contracts.Models;
 using Domain.Exceptions;
+using Services.Abstractions.Database;
 
-namespace Services
+namespace Services.Database
 {
 	public class UserRoleService: IUserRoleService
 	{

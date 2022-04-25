@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Contracts
 {
-	public class UserShortModel: BaseCodeModel
+	public class UserShortModel: BaseEntityModel
 	{
 		public string UserName { get; set; }
 	}
