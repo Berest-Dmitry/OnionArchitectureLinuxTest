@@ -176,10 +176,10 @@ namespace Services.Database
 		{
 			try
 			{
-				var existing_entity = await _repositoryManager._roleRepository.GetByIdAsync(roleModel.id);
+				var existing_entity = await _repositoryManager._roleRepository.GetByIdAsync(roleModel.Id);
 				if(existing_entity != null)
 				{
-					existing_entity.RoleName = roleModel.roleName;
+					existing_entity.RoleName = roleModel.RoleName;
 					await _repositoryManager._roleRepository.UpdateAsync(existing_entity);
 					//return roleModel;
 					return new BaseResponseModel<RoleDto>

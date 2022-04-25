@@ -33,7 +33,7 @@ namespace Services.Database
 			{
 				//var entity = ModelConverter.UserViewModelToModel(userModel);
 				var entity = ObjectMapper.Mapper.Map<User>(userModel);
-				userModel.id = Guid.NewGuid();
+				userModel.Id = Guid.NewGuid();
 				var res = await _repositoryManager._userRepository.AddAsync(entity);
 				//return ModelConverter.UserModelToViewModel(res);
 				var resultModel = ObjectMapper.Mapper.Map<UserDto>(res);
@@ -207,12 +207,12 @@ namespace Services.Database
 		{
 			try
 			{
-				var existing_entity = await _repositoryManager._userRepository.GetByIdAsync(userModel.id);
+				var existing_entity = await _repositoryManager._userRepository.GetByIdAsync(userModel.Id);
 				if (existing_entity != null)
 				{
-					existing_entity.FirstName = userModel.firstName;
-					existing_entity.LastName = userModel.lastName;
-					existing_entity.Email = userModel.email;
+					existing_entity.FirstName = userModel.FirstName;
+					existing_entity.LastName = userModel.LastName;
+					existing_entity.Email = userModel.Email;
 					await _repositoryManager._userRepository.UpdateAsync(existing_entity);
 					//return userModel;
 					return new BaseResponseModel<UserDto>

@@ -76,8 +76,9 @@ namespace OnionArcitectureLinuxTest1
 				{
 					options.JsonSerializerOptions.PropertyNamingPolicy = null;
 					options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+					options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
 					//ons.JsonSerializerOptions.Converters.Add(new FloatConverter());
-
+					//options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
 				});
 			#endregion
 		}

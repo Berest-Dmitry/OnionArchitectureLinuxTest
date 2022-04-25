@@ -13,18 +13,18 @@ namespace Contracts.Models
 		/// <summary>
 		/// имя пользователя
 		/// </summary>
-		public string firstName { get; set; }
+		public string FirstName { get; set; }
 		/// <summary>
 		/// фамилия пользователя
 		/// </summary>
-		public string lastName { get; set; }
+		public string LastName { get; set; }
 		/// <summary>
 		/// эл. почта
 		/// </summary>
-		public string email { get; set; }
+		public string Email { get; set; }
 		/// <summary>
 		/// флаг - удален
 		/// </summary>
-		public bool isRemoved { get; set; }
+		public bool IsRemoved { get; set; }
 	}
 }

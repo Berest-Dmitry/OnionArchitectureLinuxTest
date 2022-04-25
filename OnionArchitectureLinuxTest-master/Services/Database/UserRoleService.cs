@@ -157,7 +157,7 @@ namespace Services.Database
 				{
 					userNames.Add(new UserShortModel()
 					{
-						id = item.Id,
+						Id = item.Id,
 						UserName = item.FirstName + " " + item.LastName
 					});
 				}

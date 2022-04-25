@@ -72,26 +72,26 @@ var o_page = {
                 }
             },
             columns: [
-                { name: 'id', data: 'id', title: "id", className: "align-middle", visible: false },
-                { name: 'firstName', data: 'firstName', title: "Имя", className: "align-middle", width: "25%" },
-                { name: 'lastName', data: 'lastName', title: "Фамилия", className: "align-middle", width: "25%" },
-                { name: 'email', data: 'email', title: "Электронная почта", className: "align-middle", width: "30%" },
+                { name: 'Id', data: 'Id', title: "Id", className: "align-middle", visible: false },
+                { name: 'FirstName', data: 'FirstName', title: "Имя", className: "align-middle", width: "25%" },
+                { name: 'LastName', data: 'LastName', title: "Фамилия", className: "align-middle", width: "25%" },
+                { name: 'Email', data: 'Email', title: "Электронная почта", className: "align-middle", width: "30%" },
                 {
                     title: "Действителен", orderable: false, className: "text-center align-middle btn-remove-user", width: "10%", render: function (data, type, row) {
-                        let html_item = '<i title="false" id="' + row.id + '" class="fas fa-check" style="color: #154734;"></i>';
-                        if (row.isRemoved)
-                            html_item = '<i title="true" id="' + row.id + '" class="fas fa-trash-alt" style="color: #9D2235;"></i>';
+                        let html_item = '<i title="false" id="' + row.Id + '" class="fas fa-check" style="color: #154734;"></i>';
+                        if (row.IsRemoved)
+                            html_item = '<i title="true" id="' + row.Id + '" class="fas fa-trash-alt" style="color: #9D2235;"></i>';
                         return html_item;
                     }
                 },
                 {
                     title: "Ред.", orderable: false, className: "text-center align-middle", width: "5%", render: function (data, type, row) {
-                        return '<a data-row-id="' + row.id + '" class="btn-floating btn-sm btn-secondary btn-edit-user"><i title="Edit" class="fas fa-edit"></i></a>';
+                        return '<a data-row-id="' + row.Id + '" class="btn-floating btn-sm btn-secondary btn-edit-user"><i title="Edit" class="fas fa-edit"></i></a>';
                     }
                 },
                 {
                     title: "Удал.", orderable: false, className: "text-center align-middle", width: "5%", render: function (data, type, row) {
-                        return '<a data-row-id="' + row.id + '" class="btn-floating btn-sm btn-danger btn-delete-user"><i title="Delete" class="fas fa-trash"></i></a>';
+                        return '<a data-row-id="' + row.Id + '" class="btn-floating btn-sm btn-danger btn-delete-user"><i title="Delete" class="fas fa-trash"></i></a>';
                     }
                 },
             ],
@@ -168,15 +168,15 @@ var o_page = {
         let jq_modal = $("#addNewUser");
         let modal_data = helperFunc.getFormData(jq_modal);
         if (modal_data) {
-            if (modal_data.id && modal_data.id != guidEmpty) {
+            if (modal_data.Id && modal_data.Id != guidEmpty) {
                 $.ajax({
                     url: '/User/UpdateThisUser',
                     type: "POST",
                     data: modal_data,
                     success: function (res) {
                         var entity = res.Entity;
-                        if (res.Result && entity.id && entity.id != guidEmpty) {
-                            utilitiesBase.infoMessage("Пользователь " + entity.firstName + " " + entity.lastName + " успешно обновлен!");
+                        if (res.Result && entity.Id && entity.Id != guidEmpty) {
+                            utilitiesBase.infoMessage("Пользователь " + entity.FirstName + " " + entity.LastName + " успешно обновлен!");
                             o_page.jq_table.DataTable().ajax.reload();
                             helperFunc.clearModal(jq_modal, modal_data);
                             jq_modal.find('label').removeClass("active");
@@ -192,8 +192,8 @@ var o_page = {
                     data: modal_data,
                     success: function (res) {
                         var entity = res.Entity;
-                        if (res.Result && entity.id && entity.id != guidEmpty) {
-                            utilitiesBase.infoMessage("Пользователь " + entity.firstName + " " + entity.lastName + " успешно сохранен в БД!");
+                        if (res.Result && entity.Id && entity.Id != guidEmpty) {
+                            utilitiesBase.infoMessage("Пользователь " + entity.FirstName + " " + entity.LastName + " успешно сохранен в БД!");
                             o_page.jq_table.DataTable().ajax.reload();
                             helperFunc.clearModal(jq_modal, modal_data);
                             jq_modal.find('label').removeClass("active");

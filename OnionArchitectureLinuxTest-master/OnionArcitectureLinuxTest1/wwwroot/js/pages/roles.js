@@ -69,24 +69,24 @@ var o_page = {
 				}
 			},
 			columns: [
-				{ name: 'id', data: 'id', title: "id", className: "align-middle", visible: false },
-				{ name: 'roleName', data: 'roleName', title: "Название", className: "align-middle", width: "55%" },
+				{ name: 'Id', data: 'Id', title: "Id", className: "align-middle", visible: false },
+				{ name: 'RoleName', data: 'RoleName', title: "Название", className: "align-middle", width: "55%" },
 				{
 					title: "Действительна", orderable: false, className: "text-center align-middle btn-remove-role", width: "25%", render: function (data, type, row) {
-						let html_item = '<i title="false" id="' + row.id + '" class="fas fa-check" style="color: #154734;"></i>';
-						if (row.isRemoved)
-							html_item = '<i title="true" id="' + row.id + '" class="fas fa-trash-alt" style="color: #9D2235;"></i>';
+						let html_item = '<i title="false" id="' + row.Id + '" class="fas fa-check" style="color: #154734;"></i>';
+						if (row.IsRemoved)
+							html_item = '<i title="true" id="' + row.Id + '" class="fas fa-trash-alt" style="color: #9D2235;"></i>';
 						return html_item;
 					}
 				},
 				{
 					title: "Ред.", orderable: false, className: "text-center align-middle", width: "10%", render: function (data, type, row) {
-						return '<a data-row-id="' + row.id + '" class="btn-floating btn-sm btn-secondary btn-edit-role"><i title="Edit" class="fas fa-edit"></i></a>';
+						return '<a data-row-id="' + row.Id + '" class="btn-floating btn-sm btn-secondary btn-edit-role"><i title="Edit" class="fas fa-edit"></i></a>';
 					}
 				},
 				{
 					title: "Удал.", orderable: false, className: "text-center align-middle", width: "10%", render: function (data, type, row) {
-						return '<a data-row-id="' + row.id + '" class="btn-floating btn-sm btn-danger btn-delete-role"><i title="Delete" class="fas fa-trash"></i></a>';
+						return '<a data-row-id="' + row.Id + '" class="btn-floating btn-sm btn-danger btn-delete-role"><i title="Delete" class="fas fa-trash"></i></a>';
 					}
 				},
 			],
@@ -162,14 +162,14 @@ var o_page = {
 		let jq_modal = $("#addNewRole");
 		let modal_data = helperFunc.getFormData(jq_modal);
 		if (modal_data) {
-			if (modal_data.id && modal_data.id != guidEmpty) {
+			if (modal_data.Id && modal_data.Id != guidEmpty) {
 				$.ajax({
 					url: '/Role/UpdateThisRole',
 					type: "POST",
 					data: modal_data,
 					success: function (res) {
 						var entity = res.Entity;
-						if (res.Result && entity.id && entity.id != guidEmpty) {
+						if (res.Result && entity.Id && entity.Id != guidEmpty) {
 							utilitiesBase.infoMessage("Данная роль успешно обновлена!");
 							o_page.jq_table.DataTable().ajax.reload();
 							helperFunc.clearModal(jq_modal, modal_data);
@@ -186,7 +186,7 @@ var o_page = {
 					data: modal_data,
 					success: function (res) {
 						var entity = res.Entity;
-						if (res.Result && entity.id && entity.id != guidEmpty) {
+						if (res.Result && entity.Id && entity.Id != guidEmpty) {
 							utilitiesBase.infoMessage("Роль успешно создана!");
 							helperFunc.clearModal(jq_modal, modal_data);
 							o_page.jq_table.DataTable().ajax.reload();

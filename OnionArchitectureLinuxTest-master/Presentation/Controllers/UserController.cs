@@ -166,7 +166,7 @@ namespace Presentation.Controllers {
 					Result = DefaultEnums.Result.ok,
 					Entity = new UserDto
 					{
-						isRemoved = res
+						IsRemoved = res
 					}
 				};
 			}

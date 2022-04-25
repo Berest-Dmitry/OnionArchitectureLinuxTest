@@ -6,6 +6,6 @@ namespace Contracts.Base
 {
 	public class BaseEntityModel
 	{
-		public Guid id { get; set; }
+		public Guid Id { get; set; }
 	}
 }

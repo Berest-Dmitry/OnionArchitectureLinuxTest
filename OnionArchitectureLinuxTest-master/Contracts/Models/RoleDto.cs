@@ -13,10 +13,10 @@ namespace Contracts.Models
 		/// <summary>
 		/// название роли
 		/// </summary>
-		public string roleName { get; set; }
+		public string RoleName { get; set; }
 		/// <summary>
 		/// флаг - роль удалена
 		/// </summary>
-		public bool isRemoved { get; set; }
+		public bool IsRemoved { get; set; }
 	}
 }

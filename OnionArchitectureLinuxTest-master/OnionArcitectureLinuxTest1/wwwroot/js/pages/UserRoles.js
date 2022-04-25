@@ -92,7 +92,7 @@ var o_page_UserRoles = {
 							var entitiesList = res.Entity;
 							if (res.Result && entitiesList.length > 0) {
 								entitiesList.forEach(function (item) {
-									let jq_role = o_page_UserRoles.jq_roles_List.find('#' + item.id);
+									let jq_role = o_page_UserRoles.jq_roles_List.find('#' + item.Id);
 									if (jq_role) {
 										//jq_role.attr("style", "background-color: white; color: black; border-color: white;");
 										jq_role.append('<i class="fas fa-check" style="color: #154734;"></i>')
@@ -133,8 +133,8 @@ var o_page_UserRoles = {
 					//}
 					entitiesList.forEach(function (item) {
 						o_page_UserRoles.jq_users_list.append('<li class="m-2 p-2"><p style="display: none;">' +
-							item.id + '</p>'
-							+ '<p id="' + item.id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectUser(\'' + item.id + '\')">' + item.UserName + '</p></li>');
+							item.Id + '</p>'
+							+ '<p id="' + item.Id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectUser(\'' + item.Id + '\')">' + item.UserName + '</p></li>');
 					});					
 				}
 			},
@@ -160,9 +160,9 @@ var o_page_UserRoles = {
 					o_page_UserRoles.jq_roles_List.empty();
 					entitiesList.forEach(function (item) {
 						o_page_UserRoles.jq_roles_List.append('<li class="m-2 p-2"><p style="display: none;">' +
-							item.id + '</p>'
-							+ '<p id="' + item.id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectRole(\'' + item.id + '\')">'
-							+ item.roleName + '</p></li>');
+							item.Id + '</p>'
+							+ '<p id="' + item.Id + '" class="text-canter align-middle" onclick="o_page_UserRoles.selectRole(\'' + item.Id + '\')">'
+							+ item.RoleName + '</p></li>');
 					});
 				}
 			},

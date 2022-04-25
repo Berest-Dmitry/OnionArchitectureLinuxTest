@@ -171,7 +171,7 @@ namespace Presentation.Controllers
 					Result = DefaultEnums.Result.ok,
 					Entity = new RoleDto
 					{
-						isRemoved = res
+						IsRemoved = res
 					}
 				};
 			}
