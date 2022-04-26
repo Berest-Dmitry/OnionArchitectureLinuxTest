@@ -638,6 +638,10 @@ var confirmUtilites = {
      * @param {any} callbackBtnCancel Функция возврата для кнопки Cancel
      */
     confirm: function (s_title, s_desc, s_type, callbackBtnOk, callbackBtnCancel) {
+        if (!$.confirm) {
+            alert("Confirm library is not included in project!");
+            return;
+        }      
         let o_confirm = $.confirm({
             title: s_title,
             content: s_desc,

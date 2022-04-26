@@ -73,9 +73,9 @@ var o_page = {
 				{ name: 'RoleName', data: 'RoleName', title: "Название", className: "align-middle", width: "55%" },
 				{
 					title: "Действительна", orderable: false, className: "text-center align-middle btn-remove-role", width: "25%", render: function (data, type, row) {
-						let html_item = '<i title="false" id="' + row.Id + '" class="fas fa-check" style="color: #154734;"></i>';
+						let html_item = '<i title="true" id="' + row.Id + '" class="fas fa-check" style="color: #154734;"></i>';
 						if (row.IsRemoved)
-							html_item = '<i title="true" id="' + row.Id + '" class="fas fa-trash-alt" style="color: #9D2235;"></i>';
+							html_item = '<i title="false" id="' + row.Id + '" class="fas fa-trash-alt" style="color: #9D2235;"></i>';
 						return html_item;
 					}
 				},
