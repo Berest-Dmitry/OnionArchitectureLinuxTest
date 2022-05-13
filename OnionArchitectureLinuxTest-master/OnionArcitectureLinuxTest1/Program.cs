@@ -17,6 +17,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Contracts;
 
 namespace OnionArcitectureLinuxTest1
 {
@@ -47,16 +48,16 @@ namespace OnionArcitectureLinuxTest1
 					var webProtocolSettings = new List<WebProtocolSettings>();
 					webBuilder.UseStartup<Startup>();
 
-                    if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) webBuilder.UseKestrel(options => options.ConfigureEndpoints());
+                    var conf = new ConfigurationBuilder()
+                                       .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                                       .AddJsonFile("appsettings.json").Build();
+                    var loggingPaths = conf.GetSection("LoggingPaths").GetChildren()
+                        .Select(ch => new LoggingPathModel { OSName = ch.Key, FilePath = ch["FilePath"], FileName = ch["FileName"], ErrorFileName = ch["ErrorFileName"] }).ToList();
+                    var logPathLinux = loggingPaths.Where(p => p.OSName == "Linux").FirstOrDefault();
+
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) webBuilder.UseKestrel(options => options.ConfigureEndpoints(logPathLinux));
 					webBuilder.ConfigureLogging((ctx, logging) =>
 					{
-                        //configure logging
-                        //var loggingPaths = ctx.Configuration.GetSection("LoggingPaths").GetChildren()
-                        //.Select(ch => new { FilePath = ch["FilePath"], FileName = ch["FileName"] }).ToList();
-                        //if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) logging.AddFile(loggingPaths[1].FilePath + loggingPaths[1].FileName);
-                        //else logging.AddFile(loggingPaths[0].FilePath + loggingPaths[0].FileName);
-                       // _serviceManager._loggerService.WriteLogToFile("Starting...", "/home/berest/SysLog", "SYSLOG");
-
                         var sect = ctx.Configuration.GetSection("WebProtocolSettings");
 						webProtocolSettings.AddRange(sect.GetChildren().Select(ch => new WebProtocolSettings
 						{
@@ -72,17 +73,10 @@ namespace OnionArcitectureLinuxTest1
 
     public static class KestrelServerOptionsExtensions
     {
-        public static void ConfigureEndpoints(this KestrelServerOptions options)
+        public static void ConfigureEndpoints(this KestrelServerOptions options, LoggingPathModel logPath)
         {
             try
-            {
-                //WriteLogToFile("Starting...", "/home/berest/SysLog", "SYSLOG");
-                //var conf = new ConfigurationBuilder()
-                //                       .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                //                       .AddJsonFile("appsettings.json").Build();
-                //var loggingPaths = conf.GetSection("LoggingPaths").GetChildren()
-                //    .Select(ch => new { FilePath = ch["FilePath"], FileName = ch["FileName"] }).ToList();
-
+            {           
                 var configuration = options.ApplicationServices.GetRequiredService<IConfiguration>();
                 var environment = options.ApplicationServices.GetRequiredService<Microsoft.AspNetCore.Hosting.IHostingEnvironment>();
 
@@ -92,8 +86,8 @@ namespace OnionArcitectureLinuxTest1
                     var endpoint = new EndpointConfiguration();
                     section.Bind(endpoint);
                     return endpoint;
-                });   
-                 //WriteLogToFile(JsonSerializer.Serialize(endpoints), "/home/berest/SysLog", "SYSLOG");
+                });
+                //WriteLogToFile(JsonSerializer.Serialize(endpoints), "/home/berest/SysLog", "SYSLOG");
 
                 foreach (var endpoint in endpoints)
                 {
@@ -127,23 +121,24 @@ namespace OnionArcitectureLinuxTest1
                                     var certificate = LoadCertificate(config, environment);
                                     listenOptions.UseHttps(certificate);
                                     if (certificate != null) {
+                                        
                                         WriteLogToFile("Данные сертификата: " + certificate.Subject + ", " + certificate.SubjectName 
                                             + ", " + certificate.Version + ", " + certificate.Thumbprint
-                                            , "/home/berest/SysLog", "SYSLOG_END");
+                                            , logPath.FilePath, logPath.FileName);
                                     }                                
                                 }
                             });
                         }
                         catch (SystemException exp)
                         {
-                            WriteLogToFile(exp.Message, "/home/berest/SysLog", "ERRLOG");
+                            WriteLogToFile(exp.Message, logPath.FilePath, logPath.ErrorFileName);
                         }
                     }
                 }
             }
             catch(Exception ex)
             {
-               WriteLogToFile(ex.Message, "/home/berest/SysLog", "ERRLOG");
+               WriteLogToFile(ex.Message, logPath.FilePath, logPath.ErrorFileName);
             }
         }
 
