@@ -12,5 +12,7 @@ namespace Services.Abstractions
 		IUserService _userService { get; }
 
 		IRoleService _roleService { get; }
+
+		ILoggerService _loggerService { get; }
 	}
 }
